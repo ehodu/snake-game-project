@@ -1,3 +1,4 @@
+// teste
 int grid = 20; // Tamanho de cada quadrado da grade
 PVector food;
 int speed = 10; // Velocidade inicial (valor maior significa menor frequência de atualização)
