@@ -20,6 +20,7 @@ class Snake {
     moveX = int(vel.x);
     moveY = int(vel.y);
 
+    // Alinha a posição da cobrinha com a grade
     pos.x = (pos.x + width) % width;
     pos.y = (pos.y + height) % height;
 
@@ -30,22 +31,28 @@ class Snake {
     for (PVector p : hist) {
       if (p.x == pos.x && p.y == pos.y) {
         dead = true;
+        gameOverSound.play(); // Toca o som de game over quando o jogo acaba
+
         if (len > highscore) highscore = len;
       }
     }
   }
 
   void eat() {
-    if (pos.x == food.x && pos.y == food.y) {
+    // Verifica se a cobrinha está dentro de uma área ao redor da comida
+    if (abs(pos.x - food.x) < grid && abs(pos.y - food.y) < grid) {
       len++;
-      if (speed > 5) speed--; // Aumenta a velocidade gradualmente
+      if (len % 5 == 0) { // A cada 5 pontos
+        speed++; // Aumenta a velocidade
+      }
       newFood();
+      foodSound.play(); // Toca o som quando a comida é comida
     }
   }
 
   void show() {
     noStroke();
-    fill(125);
+    fill(255, 0, 0);
     rect(pos.x, pos.y, grid, grid);
     for (PVector p : hist) {
       rect(p.x, p.y, grid, grid);
