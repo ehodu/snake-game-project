@@ -33,7 +33,7 @@ class Snake {
 
     // Verificação de colisão com o próprio corpo
     for (PVector p : hist) {
-      if (p.x == pos.x && p.y == pos.y) {
+      if (p.equals(pos)) { // Verifica se a posição atual da cobrinha está no corpo
         dead = true; // A cobrinha morre se colidir com seu próprio corpo
         gameOverSound.play(); // Toca o som de game over
         if (len > highscore) highscore = len; // Atualiza o recorde se necessário
@@ -43,19 +43,30 @@ class Snake {
 
   void eat() {
     // Verifica se a cobrinha está dentro de uma área ao redor da comida
-    if (abs(pos.x - food.x) < grid && abs(pos.y - food.y) < grid) {
-      len++; // Aumenta o tamanho da cobrinha
-      if (len % 5 == 0 && speed > minSpeed) { // A cada 5 pontos, a velocidade aumenta, se não estiver no limite mínimo
-        speed--; // Aumenta a velocidade
+    ArrayList<PVector> toRemove = new ArrayList<PVector>();
+    for (PVector food : foods) {
+      if (abs(pos.x - food.x) < grid && abs(pos.y - food.y) < grid) {
+        len += 5; // Aumenta o tamanho da cobrinha
+        if (len % 20 == 0 && speed > minSpeed) { // A cada 5 pontos, a velocidade aumenta, se não estiver no limite mínimo
+          speed--; // Aumenta a velocidade
+        }
+        toRemove.add(food); // Marca a comida para remoção
+        foodSound.play(); // Toca o som quando a comida é consumida
       }
-      newFood(); // Gera nova comida
-      foodSound.play(); // Toca o som quando a comida é consumida
+    }
+    // Remove as comidas que foram comidas
+    for (PVector food : toRemove) {
+      foods.remove(food);
+    }
+    // Se todas as comidas foram comidas, gere novas
+    if (foods.isEmpty()) {
+      newFood(); // Gera novas comidas
     }
   }
 
   void show() {
     noStroke();
-    fill(255, 0, 0);
+    fill(0, 200, 200, 200);
     rect(pos.x, pos.y, grid, grid); // Desenha a cabeça da cobrinha
     for (PVector p : hist) {
       rect(p.x, p.y, grid, grid); // Desenha o corpo da cobrinha
@@ -63,6 +74,7 @@ class Snake {
   }
 }
 
+// Função para controlar a direção da cobrinha com as teclas do teclado
 void keyPressed() {
   if (keyCode == LEFT && snake.moveX != 1) {
     snake.vel.x = -1;
