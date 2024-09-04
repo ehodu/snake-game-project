@@ -1,18 +1,37 @@
-import processing.sound.*; // Importa a biblioteca de som
+// Importa a biblioteca de som
+import processing.sound.*;
 
-SoundFile somComida; // Declara o objeto SoundFile para a comida
-SoundFile somGameOver; // Declara o objeto SoundFile para o game over
-float grade = 20; // Tamanho de cada quadrado da grade
-ArrayList<PVector> comidas; // Lista das posições das comidas
-int velocidade = 10; // Velocidade inicial (valor maior significa menor frequência de atualização)
+// Declara os objetos SoundFile para a comida e game over
+SoundFile somComida;
+SoundFile somGameOver;
+
+// Tamanho de cada quadrado da grade
+float grid = 20;
+
+// Lista das posições das comidas
+ArrayList<PVector> comidas;
+
+// Velocidade inicial (valor maior significa menor frequência de atualização)
+int velocidade = 10;
+
+// Flag para indicar se a cobrinha está morta
 boolean morto = true;
-int recorde = 0;
-int velocidadeMinima = 1;
-PImage imagemFundo; // Declara o objeto PImage para a imagem de fundo
-PImage imagemComida;
-PImage imgCabeca;
-int numComidas = 5; // Número de comidas
 
+// Recorde de pontuação
+int recorde = 0;
+
+// Velocidade mínima
+int velocidadeMinima = 1;
+
+// Declara os objetos PImage para a imagem de fundo, comida e cabeça da cobrinha
+PImage imagemFundo;
+PImage imagemComida;
+PImage imagemCabeça;
+
+// Número de comidas
+int numComidas = 5;
+
+// Instância da classe Cobrinha
 Cobrinha cobrinha;
 
 void setup() {
@@ -26,7 +45,7 @@ void setup() {
   somGameOver = new SoundFile(this, "gameover.mp3"); // Inicializa o objeto SoundFile para game over
   imagemFundo.resize(width, height);
   imagemComida = loadImage("maca.png");
-  imgCabeca = loadImage("cobra.png");
+  imagemCabeça = loadImage("cobra.png");
 }
 
 void draw() {
@@ -41,14 +60,14 @@ void draw() {
     // Desenha todas as comidas
     fill(0, 0, 255); // Comida azul
     for (PVector comida : comidas) {
-      image(imagemComida, comida.x, comida.y, grade * 1.2, grade * 1.2);
+      image(imagemComida, comida.x, comida.y, grid * 1.2, grid * 1.2);
     }
 
     // Exibe a pontuação
     textAlign(LEFT);
     textSize(15);
     fill(255);
-    text("Pontuação: " + cobrinha.tam, 10, 20);
+    text("Pontuação: " + cobrinha.comprimento, 10, 20);
   } else {
     background(0);
     textSize(25);
@@ -64,12 +83,12 @@ void novaComida() {
     boolean sobreposicao;
     do {
       sobreposicao = false;
-      posComida = new PVector(floor(random(width / grade)) * grade, floor(random(height / grade)) * grade);
+      posComida = new PVector(floor(random(width / grid)) * grid, floor(random(height / grid)) * grid);
       // Verifica se a comida não sobrepõe a cabeça ou o corpo da cobrinha
-      if (posComida.equals(cobrinha.pos)) { // Certifique-se de que `cobrinha.pos` é a posição da cabeça da cobrinha
+      if (posComida.equals(cobrinha.posicao)) { // Certifique-se de que `cobrinha.posicao` é a posição da cabeça da cobrinha
         sobreposicao = true;
       } else {
-        for (PVector p : cobrinha.hist) { // Certifique-se de que `cobrinha.hist` é a lista de posições do corpo
+        for (PVector p : cobrinha.historico) { // Certifique-se de que `cobrinha.historico` é a lista de posições do corpo
           if (posComida.equals(p)) {
             sobreposicao = true;
             break;
