@@ -12,7 +12,7 @@ float grid = 20;
 ArrayList<PVector> comidas;
 
 // Velocidade inicial (valor maior significa menor frequência de atualização)
-int velocidade = 10;
+int speed = 10;
 
 // Flag para indicar se a cobrinha está morta
 boolean morto = true;
@@ -51,7 +51,7 @@ void setup() {
 void draw() {
   if (!morto) {
     background(imagemFundo); // Desenha a imagem de fundo somente se a cobrinha estiver viva
-    if (frameCount % velocidade == 0) {
+    if (frameCount % speed == 0) {
       cobrinha.atualizar();
     }
     cobrinha.mostrar();
@@ -104,7 +104,7 @@ void mousePressed() {
   if (morto) {
     cobrinha = new Cobrinha();
     novaComida();
-    velocidade = 5; // Velocidade inicial
+    speed = 5; // Velocidade inicial
     morto = false;
   }
 }
