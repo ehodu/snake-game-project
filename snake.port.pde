@@ -79,18 +79,18 @@ class Cobrinha {
 
 // Função para controlar a direção da cobrinha com as teclas do teclado
 void keyPressed() {
-  if (keyCode == LEFT && snake.moveX != 1) {
-    snake.vel.x = -1;
-    snake.vel.y = 0;
-  } else if (keyCode == RIGHT && snake.moveX != -1) {
-    snake.vel.x = 1;
-    snake.vel.y = 0;
-  } else if (keyCode == UP && snake.moveY != 1) {
-    snake.vel.y = -1;
-    snake.vel.x = 0;
-  } else if (keyCode == DOWN && snake.moveY != -1) {
-    snake.vel.y = 1;
-    snake.vel.x = 0;
+  if (keyCode == LEFT && cobrinha.movimentoX != 1) {
+    cobrinha.velocidade.x = -1;
+    cobrinha.velocidade.y = 0;
+  } else if (keyCode == RIGHT && cobrinha.movimentoX != -1) {
+    cobrinha.velocidade.x = 1;
+    cobrinha.velocidade.y = 0;
+  } else if (keyCode == UP && cobrinha.movimentoY != 1) {
+    cobrinha.velocidade.y = -1;
+    cobrinha.velocidade.x = 0;
+  } else if (keyCode == DOWN && cobrinha.movimentoY != -1) {
+    cobrinha.velocidade.y = 1;
+    cobrinha.velocidade.x = 0;
   }
 }
  
